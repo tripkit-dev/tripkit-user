@@ -3,10 +3,20 @@
 #어떤 자바를 선택할 것인지, 어떤 애플리케이션을 사용할 것인지
 
 #어떤 자바 버전을 사용할 것인지
+FROM openjdk:17-jdk as builder
+
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
+COPY src src
+RUN chmod +x ./gradlew
+RUN ./gradlew bootjar
 
 FROM openjdk:17-jdk
+
 #빌드 후의 JAR 파일(결과물)
-ARG JAR_FILE=build/libs/tripkit-user-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=build/libs/*.jar
 #set docker image name
 #.jar의 이름은 tripkit-user-0.0.1-SNAPSHOT.jar이지만 도커에서는 docker-tripkit-user.jar로 출력
 ADD ${JAR_FILE} docker-tripkit-user.jar
