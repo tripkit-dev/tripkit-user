@@ -4,7 +4,7 @@
 
 #어떤 자바 버전을 사용할 것인지
 
-FROM openjdk:11-jdk
+FROM openjdk:17-jdk
 #빌드 후의 JAR 파일(결과물)
 ARG JAR_FILE=build/libs/tripkit-user-0.0.1-SNAPSHOT.jar
 #set docker image name
