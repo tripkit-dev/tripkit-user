@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  ## db 컨테이너 설정
+  database:
+    image: mysql
+    restart: always
+    container_name: tripkit_user
+    environment:
+      - MYSQL_DATABASE=users
+      - MYSQL_ROOT_PASSWORD=anjfgkfksmsakfdldi0613!
+    ports:
+      - 3306:3306
+    networks:
+      - springboot-mysql-net
+
+  #프로젝트에 대한 정보
+  application:
+    build:
+      context: ./ #현재 디렉토리에 있는 dockerfile
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL : jdbc:mysql://database:3306/users
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: anjfgkfksmsakfdldi0613!
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+    networks:
+      - springboot-mysql-net
+
+networks:
+  springboot-mysql-net:
+    driver: bridge
